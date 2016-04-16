@@ -28,7 +28,7 @@ Where
 
   * **options** includes the following optional options for encryptionKeys
     * **signingKey** is an optional PGP private key for signing the encrypted message. If this value is not given then messages are encrypted but not signed
-    * **passphrase ** is the optional passphrase for the signing key in case it is encrypted
+    * **passphrase** is the optional passphrase for the signing key in case it is encrypted
 
 To encrypt outgoing messages add `encryptionKeys` array that holds the public keys used to encrypt the message.
 
