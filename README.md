@@ -4,6 +4,8 @@ This module allows you to send PGP encrypted messages using Nodemailer.
 Generated messages are in PGP/MIME format and currently it is only possible to
 encrypt or encrypt+sign but not just sign messages.
 
+[![Build Status](https://travis-ci.org/nodemailer/nodemailer-openpgp.svg?branch=master)](https://travis-ci.org/nodemailer/nodemailer-openpgp)
+
 ## Install
 
 Install from npm
