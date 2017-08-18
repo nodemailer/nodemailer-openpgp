@@ -1,0 +1,36 @@
+{
+    "name": "nodemailer-openpgp",
+    "version": "1.0.2",
+    "description": "Encrypt Nodemailer messages with PGP",
+    "main": "lib/nodemailer-openpgp",
+    "scripts": {
+        "test": "grunt"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/nodemailer/nodemailer-openpgp.git"
+    },
+    "keywords": [
+        "DKIM",
+        "Nodemailer"
+    ],
+    "author": "Andris Reinman",
+    "license": "LGPL-3.0",
+    "bugs": {
+        "url": "https://github.com/nodemailer/nodemailer-openpgp/issues"
+    },
+    "homepage": "https://github.com/nodemailer/nodemailer-openpgp",
+    "dependencies": {
+        "openpgp": "^2.3.6"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "grunt": "^1.0.1",
+        "grunt-cli": "^1.2.0",
+        "grunt-eslint": "^19.0.0",
+        "grunt-mocha-test": "^0.13.2",
+        "mocha": "^3.2.0",
+        "nodemailer": "^2.7.2",
+        "nodemailer-stub-transport": "^1.1.0"
+    }
+}
