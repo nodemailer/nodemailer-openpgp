@@ -1,4 +1,3 @@
-/* global describe: false, it: false */
 /* eslint-disable no-unused-expressions, no-invalid-this */
 
 'use strict';
@@ -13,12 +12,12 @@ let expect = chai.expect;
 chai.config.includeStack = true;
 
 describe('nodemailer-openpgp tests', () => {
-    it('should add encrypt message', done => {
+    it('should add an encrypt message', done => {
         let mail = 'From: andris@node.ee\r\nTo:andris@kreata.ee\r\nSubject:\r\n Hello!\r\nContent-Type: text/plain\r\n\r\nHello world!';
 
         let signer = new nodemailerOpenpgp.Encrypter({
-            signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.pem'),
-            passphrase: 'test',
+            signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.key'),
+            passphrase: 'hello world',
             encryptionKeys: [].concat(fs.readFileSync(__dirname + '/fixtures/test_public.pem') || [])
         });
 
@@ -44,8 +43,8 @@ describe('nodemailer-openpgp tests', () => {
         transport.use(
             'stream',
             openpgpEncrypt({
-                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.pem'),
-                passphrase: 'test'
+                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.key'),
+                passphrase: 'hello world'
             })
         );
 
@@ -55,7 +54,7 @@ describe('nodemailer-openpgp tests', () => {
             subject: 'hello world!',
             text: 'Hello text!',
             html: 'Hello html!',
-            encryptionKeys: fs.readFileSync(__dirname + '/fixtures/test_public.pem')
+            encryptionKeys: [].concat(fs.readFileSync(__dirname + '/fixtures/test_public.pem') || [])
         };
 
         transport.sendMail(mailOptions, (err, info) => {
@@ -92,4 +91,5 @@ describe('nodemailer-openpgp tests', () => {
             done();
         });
     });
+
 });
