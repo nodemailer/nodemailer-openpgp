@@ -91,5 +91,4 @@ describe('nodemailer-openpgp tests', () => {
             done();
         });
     });
-
 });
