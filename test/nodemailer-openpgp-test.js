@@ -16,7 +16,7 @@ describe('nodemailer-openpgp tests', () => {
         let mail = 'From: andris@node.ee\r\nTo:andris@kreata.ee\r\nSubject:\r\n Hello!\r\nContent-Type: text/plain\r\n\r\nHello world!';
 
         let signer = new nodemailerOpenpgp.Encrypter({
-            signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.key'),
+            signingKey: fs.readFileSync(__dirname + '/fixtures/test_private_2048bit.key'),
             passphrase: 'hello world',
             encryptionKeys: [].concat(fs.readFileSync(__dirname + '/fixtures/test_public.pem') || [])
         });
@@ -25,6 +25,10 @@ describe('nodemailer-openpgp tests', () => {
 
         signer.on('data', chunk => {
             chunks.push(chunk);
+        });
+
+        signer.on('err', err => {
+            expect(err).to.not.exist;
         });
 
         signer.on('end', () => {
@@ -43,7 +47,7 @@ describe('nodemailer-openpgp tests', () => {
         transport.use(
             'stream',
             openpgpEncrypt({
-                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.key'),
+                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private_2048bit.key'),
                 passphrase: 'hello world'
             })
         );
@@ -70,10 +74,7 @@ describe('nodemailer-openpgp tests', () => {
         let openpgpEncrypt = nodemailerOpenpgp.openpgpEncrypt;
         transport.use(
             'stream',
-            openpgpEncrypt({
-                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private.pem'),
-                passphrase: 'test'
-            })
+            openpgpEncrypt({})
         );
 
         let mailOptions = {
@@ -88,6 +89,88 @@ describe('nodemailer-openpgp tests', () => {
             expect(err).to.not.exist;
             expect(info.response).to.exist;
             expect(info.response.toString().indexOf('This is an OpenPGP/MIME encrypted message')).to.be.lte(0);
+            done();
+        });
+    });
+
+    it('should sign only', done => {
+        let transport = nodemailer.createTransport(stubTransport());
+        let openpgpEncrypt = nodemailerOpenpgp.openpgpEncrypt;
+        transport.use(
+            'stream',
+            openpgpEncrypt({
+                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private_2048bit.key'),
+                passphrase: 'hello world'
+            })
+        );
+
+        let mailOptions = {
+            from: 'sender@example.com',
+            to: 'receiver@example.com',
+            subject: 'hello world!',
+            text: 'Hello text!',
+            html: 'Hello html!'
+        };
+
+        transport.sendMail(mailOptions, (err, info) => {
+            expect(err).to.not.exist;
+            expect(info.response).to.exist;
+            expect(info.response.toString().indexOf('Content-Description: OpenPGP signed message')).to.be.gte(0);
+            done();
+        });
+    });
+
+    it('should disable sign', done => {
+        let transport = nodemailer.createTransport(stubTransport());
+        let openpgpEncrypt = nodemailerOpenpgp.openpgpEncrypt;
+        transport.use(
+            'stream',
+            openpgpEncrypt({
+                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private_2048bit.key'),
+                passphrase: 'hello world'
+            })
+        );
+
+        let mailOptions = {
+            from: 'sender@example.com',
+            to: 'receiver@example.com',
+            subject: 'hello world!',
+            text: 'Hello text!',
+            html: 'Hello html!',
+            shouldSign: false
+        };
+
+        transport.sendMail(mailOptions, (err, info) => {
+            expect(err).to.not.exist;
+            expect(info.response).to.exist;
+            expect(info.response.toString().indexOf('Content-Description: OpenPGP signed message')).to.be.lte(0);
+            done();
+        });
+    });
+
+    it('should reject weak keys', done => {
+        let transport = nodemailer.createTransport(stubTransport());
+        let openpgpEncrypt = nodemailerOpenpgp.openpgpEncrypt;
+        transport.use(
+            'stream',
+            openpgpEncrypt({
+                signingKey: fs.readFileSync(__dirname + '/fixtures/test_private_1024bit.key'),
+                passphrase: 'hello world'
+            })
+        );
+
+        let mailOptions = {
+            from: 'sender@example.com',
+            to: 'receiver@example.com',
+            subject: 'hello world!',
+            text: 'Hello text!',
+            html: 'Hello html!',
+            encryptionKeys: [].concat(fs.readFileSync(__dirname + '/fixtures/test_public.pem') || [])
+        };
+
+        transport.sendMail(mailOptions, err => {
+            expect(err).to.exist;
+            expect(err.toString().indexOf('RSA keys shorter than 2047 bits are considered too weak')).to.be.gte(0);
             done();
         });
     });

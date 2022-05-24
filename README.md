@@ -1,8 +1,7 @@
 # OpenPGP module for Nodemailer
 
-This module allows you to send PGP encrypted messages using Nodemailer.
-Generated messages are in PGP/MIME format and currently it is only possible to
-encrypt or encrypt+sign but not just sign messages.
+This module allows you to send PGP encrypted and/or signed messages using Nodemailer.
+Generated messages are in PGP/MIME format.
 
 [![Build Status](https://travis-ci.org/nodemailer/nodemailer-openpgp.svg?branch=master)](https://travis-ci.org/nodemailer/nodemailer-openpgp)
 
@@ -28,11 +27,12 @@ transporter.use('stream', openpgpEncrypt(options));
 
 Where
 
-  * **options** includes the following optional options for encryptionKeys
-    * **signingKey** is an optional PGP private key for signing the encrypted message. If this value is not given then messages are encrypted but not signed
+  * **options** includes the following optional options for signing messages
+    * **signingKey** is an optional PGP private key for signing the (encrypted) message. If this value is not given then messages are not signed
     * **passphrase** is the optional passphrase for the signing key in case it is encrypted
 
 To encrypt outgoing messages add `encryptionKeys` array that holds the public keys used to encrypt the message.
+To not sign an outgoing message set `shouldSign` to `false`.
 
 ## Example
 
@@ -46,7 +46,8 @@ transporter.sendMail({
     to: 'receiver@address',
     subject: 'hello',
     text: 'hello world!',
-    encryptionKeys: ['-----BEGIN PGP PUBLIC KEY BLOCK-----…']
+    encryptionKeys: ['-----BEGIN PGP PUBLIC KEY BLOCK-----…'],
+    shouldSign: true
 }, function(err, response) {
     console.log(err || response);
 });
