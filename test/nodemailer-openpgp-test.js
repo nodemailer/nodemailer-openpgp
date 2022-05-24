@@ -2,13 +2,13 @@
 
 'use strict';
 
-let chai = require('chai');
-let nodemailerOpenpgp = require('../lib/nodemailer-openpgp');
-let stubTransport = require('nodemailer-stub-transport');
-let nodemailer = require('nodemailer');
-let fs = require('fs');
+const chai = require('chai');
+const nodemailerOpenpgp = require('../lib/nodemailer-openpgp');
+const stubTransport = require('nodemailer-stub-transport');
+const nodemailer = require('nodemailer');
+const fs = require('fs');
 
-let expect = chai.expect;
+const expect = chai.expect;
 chai.config.includeStack = true;
 
 describe('nodemailer-openpgp tests', () => {
@@ -72,10 +72,7 @@ describe('nodemailer-openpgp tests', () => {
     it('should not encrypt if no keys provided', done => {
         let transport = nodemailer.createTransport(stubTransport());
         let openpgpEncrypt = nodemailerOpenpgp.openpgpEncrypt;
-        transport.use(
-            'stream',
-            openpgpEncrypt({})
-        );
+        transport.use('stream', openpgpEncrypt({}));
 
         let mailOptions = {
             from: 'sender@example.com',
