@@ -1,6 +1,6 @@
 {
     "name": "nodemailer-openpgp",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "Encrypt Nodemailer messages with PGP",
     "main": "lib/nodemailer-openpgp",
     "scripts": {
@@ -21,20 +21,20 @@
     },
     "homepage": "https://github.com/nodemailer/nodemailer-openpgp",
     "engines": {
-        "node": ">=12"
+        "node": ">=14"
     },
     "dependencies": {
-        "openpgp": "5.2.1"
+        "openpgp": "5.9.0"
     },
     "devDependencies": {
-        "chai": "4.3.6",
+        "chai": "4.3.7",
         "eslint-config-nodemailer": "1.2.0",
-        "grunt": "1.5.3",
+        "grunt": "1.6.1",
         "grunt-cli": "1.4.3",
-        "grunt-eslint": "24.0.0",
+        "grunt-eslint": "24.2.0",
         "grunt-mocha-test": "0.13.3",
-        "mocha": "10.0.0",
-        "nodemailer": "6.7.5",
+        "mocha": "10.2.0",
+        "nodemailer": "6.9.3",
         "nodemailer-stub-transport": "1.1.0"
     }
 }
