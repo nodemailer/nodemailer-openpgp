@@ -1,6 +1,6 @@
 {
     "name": "nodemailer-openpgp",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "Encrypt Nodemailer messages with PGP",
     "main": "lib/nodemailer-openpgp",
     "scripts": {
