@@ -34,7 +34,7 @@
         "grunt-cli": "1.4.3",
         "grunt-eslint": "24.3.0",
         "grunt-mocha-test": "0.13.3",
-        "mocha": "10.4.0",
+        "mocha": "10.8.2",
         "nodemailer": "6.9.13",
         "nodemailer-stub-transport": "1.1.0"
     }
